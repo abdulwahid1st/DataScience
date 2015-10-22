@@ -22,7 +22,13 @@ def computeCost(X, y, theta):
     J = sumOfSquareErrors / (2*m);
     return J;
 
-def gradientDescent(X, y, theta, alpha = 1, nIteration = 20):
+def featureNormalization(X):
+    mu = X.mean();
+    std = X.std();
+    XNorm = (X - mu) / std;
+    return XNorm, mu, std;
+    
+def gradientDescent(X, y, theta, alpha = 0.1, nIteration = 20):
     '''
     X is matrix of [m,n]
     theta is matrix of [n,1]
@@ -47,3 +53,10 @@ if __name__ == '__main__':
     data = pd.read_csv('../../data/baseball_data.csv');
     X = matrix(data[['height', 'weight']]);
     y = matrix(data[['HR']]);
+    
+    XNorm, mu, std = featureNormalization(X);
+    ones = np.ones(y.shape);
+    XNorm = np.hstack((ones,XNorm));
+    
+    theta = np.zeros([XNorm.shape[1],1]);
+    result = gradientDescent(XNorm, y, theta, 0.001, 100000);
