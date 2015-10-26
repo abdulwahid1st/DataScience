@@ -18,5 +18,17 @@ def lineplot():
         ylab('HR');
     print(plot);
 
+def lineplotCompare():
+    data = pd.read_csv('../../data/hr_by_team_year_sf_la.csv');
+    plot = ggplot(data, aes('yearID', 'HR', color='teamID')) +\
+        geom_point() +\
+        geom_line() +\
+        ggtitle('Total HRs by Year') +\
+        xlab('YEAR') +\
+        ylab('HR');
+    print(plot);
+
+
 if __name__ == '__main__':
     lineplot();
+    lineplotCompare();
